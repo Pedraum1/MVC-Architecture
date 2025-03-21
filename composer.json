@@ -1,0 +1,12 @@
+{
+    "name": "pedro_paulo/mvc_framework",
+    "description": "App for studies on the MVC structure and how it works",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Pedro Paulo",
+            "email": "pedro.paulo60@aluno.ifce.edu.br"
+        }
+    ],
+    "require": {}
+}
