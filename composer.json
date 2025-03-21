@@ -8,5 +8,11 @@
             "email": "pedro.paulo60@aluno.ifce.edu.br"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "MVC\\app\\Controllers\\":["app/Controllers"]
+        },
+        "files":["app/config.php"]
+    }
 }
