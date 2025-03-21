@@ -1,10 +1,17 @@
 <?php
 
-use MVC\app\Controllers\Controller;
+use MVC\app\System\App;
 
 require_once('../vendor/autoload.php');
-echo APP_NAME;
 
-$a = new Controller;
-echo "<br>";
-echo $a->test();
+$app = new App();
+
+$app->router->get('/', function(){
+    echo "Hello World";
+});
+$app->router->get('/contacts', function(){
+    echo "Contacts";
+});
+
+$app->useRouter();
+$app->run();
