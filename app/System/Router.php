@@ -6,11 +6,13 @@ class Router
 {
 
     protected array $routes = [];
+    public Response $response;
     public Request $request;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, Response $response)
     {
         $this->request = $request;
+        $this->response = $response;
     }
 
     public function get(string $path, $callback)
@@ -23,11 +25,31 @@ class Router
         $path = $this->request->getPath();
         $method = $this->request->getMethod();
         $callback = $this->routes[$method][$path] ?? false;
-        if($callback === false){
-            echo "Not Found";
-            exit;
+
+        #In case of no route finded
+        if($callback === false)
+        {
+            $this->response->setStatusCode(404);
+            return $this->renderErrorView(404);
+        }
+
+        #In case of string provided, returns view based on name provided
+        if (is_string($callback))
+        {
+            return $this->renderView($callback);
         }
 
         return call_user_func($callback);
     }
+
+    public function renderView($view)
+    {
+        include_once App::$ROOT_DIR."/app/Views/$view.php";
+    }
+
+    private function renderErrorView(int $code)
+    {
+        include_once App::$ROOT_DIR."/app/Views/Errors/$code.php";
+    }
+
 }
