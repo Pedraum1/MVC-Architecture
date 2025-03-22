@@ -2,14 +2,19 @@
 
 use MVC\app\System\App;
 
-function renderView(string $view)
+function renderView(string $view, array $params = [])
 {
     if(viewNotAvaliable($view))
     {
         renderErrorView(404);
         return;
     }
+    
+    foreach($params as $key => $value){
+        $$key = $value;
+    }
 
+    ob_start();
     include_once App::$ROOT_DIR."/app/Views/$view.php";
 }
 
