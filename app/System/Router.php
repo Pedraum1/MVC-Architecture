@@ -32,7 +32,7 @@ class Router
         if($callback === false)
         {
             $this->response->setStatusCode(404);
-            return $this->renderErrorView(404);
+            return renderErrorView(404);
         }
 
         #In case of string provided, returns view based on name provided
