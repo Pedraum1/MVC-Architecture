@@ -23,7 +23,8 @@ class App
     }
 
     public function useRouter(): void{
-        return;
+        $generate_routes = require_once(self::$ROOT_DIR.'app/Routes/web.php');
+        $generate_routes($this->router);
     }
 
 }
