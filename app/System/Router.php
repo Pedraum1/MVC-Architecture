@@ -2,6 +2,8 @@
 
 namespace MVC\app\System;
 
+include_once(App::$ROOT_DIR.'app/System/Functions/ViewRendering.php');
+
 class Router
 {
 
@@ -36,20 +38,49 @@ class Router
         #In case of string provided, returns view based on name provided
         if (is_string($callback))
         {
-            return $this->renderView($callback);
+            return renderView($callback);
+        }
+
+        #In case of Controller class provided, returns controller's function
+        if (is_array($callback))
+        {
+            $controller_class = $callback[0];
+            $controller_function = $callback[1];
+
+            #Evaluating if controller and function passed are correct and matches with some Controller + public function
+            if($this->isOperationAvailable($controller_class, $controller_function))
+            {
+                $controller_instance = new $controller_class();
+                return $controller_instance->$controller_function();
+            }
+            
+            return renderErrorView(500);
+
         }
 
         return call_user_func($callback);
     }
 
-    public function renderView($view)
+    private function isOperationAvailable(string $controller, string $function): bool
     {
-        include_once App::$ROOT_DIR."/app/Views/$view.php";
-    }
+        if(!class_exists($controller))
+        {
+            return false;
+        }
 
-    private function renderErrorView(int $code)
-    {
-        include_once App::$ROOT_DIR."/app/Views/Errors/$code.php";
+        if(!is_subclass_of($controller,BaseController::class))
+        {
+            return false;
+        }
+
+        $controller_instance = new $controller();
+
+        if(!is_callable([$controller_instance, $function]))
+        {
+            return false;
+        }
+
+        return true;
     }
 
 }
