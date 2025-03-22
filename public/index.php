@@ -1,6 +1,5 @@
 <?php
 
-use MVC\app\Controllers\Main;
 use MVC\app\System\App;
 
 require_once(__DIR__.'/../vendor/autoload.php');
