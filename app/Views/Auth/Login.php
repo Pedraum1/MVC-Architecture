@@ -1,12 +1,12 @@
 <?php ?>
 
-<h1>Contacts</h1>
+<h1>Login</h1>
 
 <a href="/">Homepage</a>
 <a href="/contacts">Contacts</a>
 <a href="/posts">Posts</a>
 
-<form action="http://localhost:8080/contacts" method="post">
+<form action="http://localhost:8080/login" method="post">
     <div>
         <label for="email_input">Email</label><br>
         <input type="email" name="email_input" id="email_input">

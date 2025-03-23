@@ -2,11 +2,11 @@
 
 use MVC\app\System\App;
 
-function renderView(string $view, array $params = [])
+function renderView(string $view, array $params = []):void
 {
-    if(viewNotAvaliable($view))
+    if(viewDontExist($view))
     {
-        renderErrorView(404);
+        renderErrorView(404, ["error" => "View not founded"]);
         return;
     }
     
@@ -18,9 +18,14 @@ function renderView(string $view, array $params = [])
     include_once App::$ROOT_DIR."/app/Views/$view.php";
 }
 
-function renderErrorView(int $code)
+function renderErrorView(int $code, $params = []): void
 {
-    if(viewNotAvaliable($code))
+    
+    foreach($params as $key => $value){
+        $$key = $value;
+    }
+    
+    if(viewDontExist($code))
     {
         echo "404 - Not Found";
         return;
@@ -29,7 +34,7 @@ function renderErrorView(int $code)
     include_once App::$ROOT_DIR."/app/Views/Errors/$code.php";
 }
 
-function viewNotAvaliable(string|int $view): bool
+function viewDontExist(string|int $view): bool
 {
     if(is_string($view))
     {

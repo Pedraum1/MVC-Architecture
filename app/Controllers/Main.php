@@ -3,16 +3,23 @@
 namespace MVC\app\Controllers;
 
 use MVC\app\System\BaseController;
-
+use MVC\app\System\Request;
 
 class Main extends BaseController{
 
     public function index()
     {
         $params = [
-            'name' => "Pedro"
+            'name' => "Sara"
         ];
         return renderView('Home', $params);
+    }
+
+    public function handleContact(Request $request)
+    {
+        $body = $request->getBody();
+
+        var_dump($body);
     }
 
     public function posts()

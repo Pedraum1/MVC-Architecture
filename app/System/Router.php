@@ -37,13 +37,13 @@ class Router
         if($callback === false)
         {
             $this->response->setStatusCode(404);
-            return renderErrorView(404);
+            renderErrorView(404, ["error" => "Callback not founded"]);
         }
 
         #In case of string provided, returns view based on name provided
         if (is_string($callback))
         {
-            return renderView($callback);
+            renderView($callback);
         }
 
         #In case of Controller class provided, returns controller's function
@@ -56,14 +56,12 @@ class Router
             if($this->isOperationAvailable($controller_class, $controller_function))
             {
                 $controller_instance = new $controller_class();
-                return $controller_instance->$controller_function();
+                return $controller_instance->$controller_function($this->request);
             }
-            
-            return renderErrorView(500);
+
+            renderErrorView(500, ["error" => "Controller or Function not available"]);
 
         }
-
-        return call_user_func($callback);
     }
 
     private function isOperationAvailable(string $controller, string $function): bool
